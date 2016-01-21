@@ -126,19 +126,21 @@ app.directive('autocomplete', function () {
             }
 
             if (attrs.clickActivation) {
-                element[0].onclick = function (e) {
+                element.on('click', function () {
                     if (!scope.searchParam) {
                         setTimeout(function () {
                             scope.completing = true;
                             scope.$apply();
                         }, 200);
                     }
-                };
+                });
+
             }
 
             var key = {left: 37, up: 38, right: 39, down: 40, enter: 13, esc: 27, tab: 9};
+            var document = angular.element(document);
 
-            document.addEventListener("keydown", function (e) {
+            document.on("keydown", function (e) {
                 var keycode = e.keyCode || e.which;
 
                 switch (keycode) {
@@ -151,7 +153,7 @@ app.directive('autocomplete', function () {
                 }
             }, true);
 
-            document.addEventListener("blur", function (e) {
+            document.on("blur", function (e) {
                 // disable suggestions on blur
                 // we do a timeout to prevent hiding it before a click event is registered
                 setTimeout(function () {
@@ -161,7 +163,7 @@ app.directive('autocomplete', function () {
                 }, 150);
             }, true);
 
-            element[0].addEventListener("keydown", function (e) {
+            element.on("keydown", function (e) {
                 var keycode = e.keyCode || e.which;
 
                 var l = angular.element(this).find('li').length;
